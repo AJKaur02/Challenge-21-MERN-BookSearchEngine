@@ -11,18 +11,17 @@ This project is a book search engine that has been refactored from a RESTful API
 
 ## User Story
 
-```md
-AS AN avid reader
-I WANT to search for new books to read
-SO THAT I can keep a list of books to purchase
+    AS AN avid reader
+    I WANT to search for new books to read
+    SO THAT I can keep a list of books to purchase
 
 ## Features
 
-- Search for books using the Google Books API.
-- Save and manage favorite books.
-- User authentication with signup and login functionality.
-- View and manage saved books.
-- Responsive UI with intuitive user experience.
+    - Search for books using the Google Books API.
+    - Save and manage favorite books.
+    - User authentication with signup and login functionality.
+    - View and manage saved books.
+    - Responsive UI with intuitive user experience.
 
 ### Search Functionality
 
@@ -47,10 +46,12 @@ Users can view and manage their saved books on a separate page:
 ### Back-End
 
 1. **Apollo Server Setup**
+
    - Implemented Apollo Server in `server.js`.
    - Replaced RESTful routes with GraphQL queries and mutations.
 
 2. **Authentication Middleware**
+
    - Updated `auth.js` middleware to support GraphQL.
 
 3. **GraphQL Schema**
@@ -61,6 +62,7 @@ Users can view and manage their saved books on a separate page:
 ### Front-End
 
 1. **Apollo Client Integration**
+
    - Set up Apollo Provider in `App.jsx`.
    - Updated `queries.js` and `mutations.js` to work with Apollo.
 
