@@ -2,7 +2,19 @@
 
 ## Description
 
-This project is a Book Search Engine built using the MERN stack (MongoDB, Express.js, React, Node.js). It allows users to search for books using the Google Books API and save their favorite books to their account. The application has been refactored to use GraphQL with Apollo Server instead of a RESTful API.
+This project is a book search engine that has been refactored from a RESTful API to a GraphQL API using Apollo Server. Originally built with the MERN stack (MongoDB, Express.js, React, Node.js), the application allows users to search for books via the Google Books API and manage their saved books. The goal of this project is to demonstrate the transformation of a RESTful API to a GraphQL API while maintaining user functionality and performance.
+
+1. Set up an Apollo Server to use GraphQL queries and mutations to fetch and modify data, replacing the existing RESTful API.
+2. Modify the existing authentication middleware so that it works in the context of a GraphQL API.
+3. Create an Apollo Provider so that requests can communicate with an Apollo Server.
+4. Deploy your application to Render with a MongoDB database using MongoDB Atlas. Use the [Deploy with Render and MongoDB Atlas](https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas) walkthrough for instructions.
+
+## User Story
+
+```md
+AS AN avid reader
+I WANT to search for new books to read
+SO THAT I can keep a list of books to purchase
 
 ## Features
 
@@ -12,114 +24,55 @@ This project is a Book Search Engine built using the MERN stack (MongoDB, Expres
 - View and manage saved books.
 - Responsive UI with intuitive user experience.
 
-## Technologies Used
+### Search Functionality
 
-- **Front-End:**
-  - React
-  - Apollo Client
-  - CSS
+Users can search for books by typing a term (e.g., "star wars") into the search box:
 
-- **Back-End:**
-  - Node.js
-  - Express.js
-  - Apollo Server
-  - MongoDB (using Mongoose)
+![Search Books](./Assets/21-mern-homework-demo-01.gif)
 
-- **Database:**
-  - MongoDB Atlas
+### Save Book
 
-- **Deployment:**
-  - Render
-  
-## Installation
+Users can save books by clicking "Save This Book!" under each search result:
 
-1. **Clone the Repository:**
+![Save Book](./Assets/21-mern-homework-demo-02.gif)
 
-   Open your terminal and run the following command to clone the repository:
+### View Saved Books
 
-   ```bash
-   git clone https://github.com/AJKaur02/Challenge-21-MERN-BookSearchEngine
-   ```
+Users can view and manage their saved books on a separate page:
 
-   Navigate into the project directory:
+![Saved Books](./Assets/21-mern-homework-demo-03.gif)
 
-   ```bash
-   cd book-search-engine
-   ```
+## Implementation
 
-2. **Install Backend Dependencies:**
+### Back-End
 
-   Change to the `server` directory and install the backend dependencies:
+1. **Apollo Server Setup**
+   - Implemented Apollo Server in `server.js`.
+   - Replaced RESTful routes with GraphQL queries and mutations.
 
-   ```bash
-   cd server
-   npm install
-   ```
+2. **Authentication Middleware**
+   - Updated `auth.js` middleware to support GraphQL.
 
-3. **Install Frontend Dependencies:**
+3. **GraphQL Schema**
+   - Defined types, queries, and mutations in `typeDefs.js` and `resolvers.js`.
+   - Types include `User`, `Book`, and `Auth`.
+   - Queries and mutations handle user authentication and book management.
 
-   Change to the `client` directory and install the frontend dependencies:
+### Front-End
 
-   ```bash
-   cd ../client
-   npm install
-   ```
+1. **Apollo Client Integration**
+   - Set up Apollo Provider in `App.jsx`.
+   - Updated `queries.js` and `mutations.js` to work with Apollo.
 
-4. **Set Up Environment Variables:**
+2. **Components**
+   - **`SearchBooks.jsx`**: Uses Apollo’s `useMutation()` for saving books.
+   - **`SavedBooks.jsx`**: Utilizes `useQuery()` for fetching saved books and `useMutation()` for removing books.
+   - **`SignupForm.jsx`**: Replaces old signup functionality with `ADD_USER` mutation.
+   - **`LoginForm.jsx`**: Replaces old login functionality with `LOGIN_USER` mutation.
 
-   Create a `.env` file in the `server` directory with the following example content:
+## Deployment
 
-   ```env
-   MONGODB_URI=your_mongodb_atlas_connection_string
-   SECRET_KEY=your_secret_key
-   ```
-
-   Replace `your_mongodb_atlas_connection_string` and `your_secret_key` with your actual MongoDB connection string and secret key.
-
-5. **Start the Application:**
-
-   - **Start the Backend Server:**
-
-     From the `server` directory, run:
-
-     ```bash
-     npm start
-     ```
-
-   - **Start the Frontend Application:**
-
-     From the `client` directory, run:
-
-     ```bash
-     npm start
-     ```
-
-## Usage
-
-1. **Search for Books:**
-
-   - Open the application in your browser.
-   - Navigate to the search page.
-   - Enter a book title or keyword into the search field.
-   - Click "Search" to see the search results.
-
-2. **Save Books:**
-
-   - In the search results, click "Save This Book!" under any book you want to save.
-
-3. **View Saved Books:**
-
-   - Click on the "Saved Books" menu option to view and manage your saved books.
-
-4. **Login/Signup:**
-
-   - Click "Login/Signup" to open the authentication modal.
-   - Select either "Login" or "Signup".
-   - Enter your credentials and click the respective button to log in or sign up.
-
-5. **Logout:**
-
-   - Click "Logout" to end your session and return to the home page.
+Deploy the application using Render and MongoDB Atlas. Follow the [Deploy with Render and MongoDB Atlas](https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas) guide for instructions.
 
 ## Contributing
 
@@ -128,4 +81,3 @@ Contributions are welcome! You can open issues or submit pull requests to sugges
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
-
