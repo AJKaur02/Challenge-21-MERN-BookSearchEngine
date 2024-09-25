@@ -1,14 +1,19 @@
-// see SignupForm.js for comments
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-import { loginUser } from '../utils/API';
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
+
+  // Set alert visibility based on error
+  useEffect(() => {
+    setShowAlert(!!error);
+  }, [error]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -17,34 +22,27 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
+
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }
+    } else {
+      try {
+        const response = await loginUser({ variables: { ...userFormData } });
+        console.log("Login response:", response); // Debugging: Check the response structure
 
-    try {
-      const response = await loginUser(userFormData);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
+        // Check if token exists
+        if (response.data && response.data.login && response.data.login.token) {
+          Auth.login(response.data.login.token);
+        } else {
+          setShowAlert(true); // Show alert if token is missing
+        }
+      } catch (err) {
+        console.error("Login error:", err); // More detailed error logging
+        setShowAlert(true);
       }
-
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
-    } catch (err) {
-      console.error(err);
-      setShowAlert(true);
     }
-
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
   };
 
   return (
@@ -53,36 +51,37 @@ const LoginForm = () => {
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your login credentials!
         </Alert>
-        <Form.Group className='mb-3'>
+        {/* Email and Password Fields */}
+        <Form.Group>
           <Form.Label htmlFor='email'>Email</Form.Label>
-          <Form.Control
-            type='text'
-            placeholder='Your email'
-            name='email'
-            onChange={handleInputChange}
-            value={userFormData.email}
-            required
+          <Form.Control 
+            type='email' 
+            placeholder='Your email' 
+            name='email' 
+            onChange={handleInputChange} 
+            value={userFormData.email} 
+            required 
           />
           <Form.Control.Feedback type='invalid'>Email is required!</Form.Control.Feedback>
         </Form.Group>
-
-        <Form.Group className='mb-3'>
+        <Form.Group>
           <Form.Label htmlFor='password'>Password</Form.Label>
-          <Form.Control
-            type='password'
-            placeholder='Your password'
-            name='password'
-            onChange={handleInputChange}
-            value={userFormData.password}
-            required
+          <Form.Control 
+            type='password' 
+            placeholder='Your password' 
+            name='password' 
+            onChange={handleInputChange} 
+            value={userFormData.password} 
+            required 
           />
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
-        <Button
-          disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
-          variant='success'>
-          Submit
+        <Button 
+          disabled={!(userFormData.email && userFormData.password)} 
+          type='submit' 
+          variant='success'
+        >
+          Log In
         </Button>
       </Form>
     </>
