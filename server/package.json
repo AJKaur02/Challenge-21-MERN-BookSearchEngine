@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.11.8",
+    "@apollo/server": "^4.11.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "bcrypt": "^5.1.1",
+    "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "graphql": "^16.9.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.7.0",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.5",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2",
+    "vite": "^5.4.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "npm-force-resolutions": "^0.0.10"
+  }
+}
